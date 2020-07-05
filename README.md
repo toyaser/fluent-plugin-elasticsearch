@@ -968,6 +968,15 @@ Here is a sample config:
 </match>
 ```
 
+#### Generate Hash ID Options
+* ```include_tag_in_seed``` default ```false``` will include the document tag in the seed used to generate the id
+* ```include_time_in_seed``` default ```false``` will include the ```@timestamp``` in the seed used to generate the id
+* ```use_record_as_seed``` default ```false``` this must be set to true to allow using keys from the document to generate the id
+* ```record_keys``` a comma separated list of keys to use to generate the seed for the id e.g. ```session_id,$.nested.request_id```
+* ```use_all_record_keys_for_seed``` default ```false``` will use all values of the keys in the document in the seed used to generate the id, use this when trying to generate an ```_id``` without having to specify the keys to generate the document id
+* ```separator``` default ```_``` the character used to separate the value of the keys when generating the id
+* ```hash_type``` default ```sha1``` the hashing type to use to generate the seed for the id, valid values ```md5, sha1, sha256, sha512```
+
 ### Sniffer Class Name
 
 The default Sniffer used by the `Elasticsearch::Transport` class works well when Fluentd has a direct connection
