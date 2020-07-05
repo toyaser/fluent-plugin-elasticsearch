@@ -10,6 +10,7 @@ module Fluent::Plugin
     config_param :include_tag_in_seed, :bool, :default => false
     config_param :include_time_in_seed, :bool, :default => false
     config_param :use_record_as_seed, :bool, :default => false
+    config_param :use_all_record_keys, :bool, :default => false
     config_param :record_keys, :array, :default => []
     config_param :separator, :string, :default => '_'
     config_param :hash_type, :enum, list: [:md5, :sha1, :sha256, :sha512], :default => :sha1
@@ -31,7 +32,11 @@ module Fluent::Plugin
         seed = ""
         seed += tag + separator if @include_tag_in_seed
         seed += time.to_s + separator if @include_time_in_seed
-        seed += record_keys.map {|k| record[k]}.join(separator)
+        if @use_all_record_keys
+          seed += record.join(separator)
+        else
+          seed += record_keys.map {|k| record[k]}.join(separator)
+        end
         record[@hash_id_key] = Base64.strict_encode64(encode_hash(@hash_type, seed))
         record
       else
