@@ -32,7 +32,7 @@ module Fluent::Plugin
         seed = ""
         seed += tag + separator if @include_tag_in_seed
         seed += time.to_s + separator if @include_time_in_seed
-        if @use_all_record_keys
+        if @use_all_record_keys_for_seed
           seed += record.join(separator)
         else
           seed += record_keys.map {|k| record[k]}.join(separator)
